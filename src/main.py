@@ -1,4 +1,10 @@
 import random
+import time
+
+# This size looks nice in my neovim terminal popup
+# Change it to your liking
+WIDTH = 30
+HEIGHT = 14
 
 def dead_state(width, height):
     board = []
@@ -76,4 +82,10 @@ def next_board_state(state):
             temp.append(cell)
         new_state.append(temp)
     return(new_state)
- 
+
+state = random_state(WIDTH, HEIGHT)
+create_board(state)
+while state != dead_state(WIDTH, HEIGHT) and state != next_board_state(state):
+    time.sleep(0.5)
+    state = next_board_state(state)
+    create_board(state)
