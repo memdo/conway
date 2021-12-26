@@ -28,3 +28,52 @@ def create_board(state):
         print("|")
     print(starter)
 
+def next_board_state(state):
+    new_state = []
+    for h in range(len(state)):
+        temp = []
+        for w in range(len(state[0])):
+            neighbors = 0
+            cell = state[h][w]
+            top = state[h-1][w]
+            topleft = state[h-1][w-1]
+            left = state[h][w-1]
+            right = state[h][w+1] if w != len(state[0])-1 else 0
+            bottom = state[h+1][w] if h != len(state)-1 else 0
+            bottomleft = state[h+1][w-1] if h != len(state)-1 else 0
+            topright = state[h-1][w+1] if w != len(state[0])-1 else 0
+            bottomright = state[h+1][w+1] if h!= len(state)-1 and w != len(state[0])-1 else 0
+            # calc neighbors
+            if h == 0 and w == 0:
+                neighbors = bottom + right + bottomright
+            elif h == 0 and w == len(state[0])-1:
+                neighbors = bottom + left + bottomleft
+            elif h == len(state)-1 and w == 0:
+                neighbors = top + right + topright
+            elif h == len(state)-1 and w == len(state[0])-1:
+                neighbors = top + left + topleft
+            elif h == 0:
+                neighbors = bottom + right + left + bottomleft + bottomright 
+            elif w == 0:
+                neighbors = top + bottom + right + topright + bottomright
+            elif h == len(state)-1:
+                neighbors = top + left + right + topleft + topright
+            elif w == len(state[0])-1:
+                neighbors = top + bottom + left + topleft + bottomleft
+            else:
+                neighbors = top + bottom + right + left + topright + topleft + bottomright + bottomleft
+            # decide if living or not
+            if cell:
+                if neighbors < 2:
+                    cell = 0
+                elif neighbors == 3 or neighbors == 2:
+                    cell = 1
+                elif neighbors > 3:
+                    cell = 0
+            else:
+                if neighbors == 3:
+                    cell = 1
+            temp.append(cell)
+        new_state.append(temp)
+    return(new_state)
+ 
